@@ -1,0 +1,20 @@
+services:
+  gym-app-postgres:
+    image: postgres:14
+    container_name:  gym-app-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: admin
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+  n8n-test:
+    image: n8nio/n8n
+    container_name: n8n-test
+    depends_on:
+      - gym-app-postgres
+    volumes:
+      - ./n8ndata:/home/node/.n8n
+    command: start --tunnel
+    network_mode: "host"
+
