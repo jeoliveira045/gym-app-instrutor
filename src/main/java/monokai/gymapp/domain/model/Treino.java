@@ -8,6 +8,7 @@ import java.util.List;
 public class Treino {
 
     private Long treinoId;
+    private String nomeTreino;
     private List<Tarefa> tarefaList;
 
 }
