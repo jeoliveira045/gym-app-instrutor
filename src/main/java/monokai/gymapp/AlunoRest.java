@@ -1,12 +1,9 @@
 package monokai.gymapp;
 
 import monokai.gymapp.domain.model.Aluno;
-import monokai.gymapp.services.AlunoService;
+import monokai.gymapp.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,7 +12,7 @@ import java.util.List;
 public class AlunoRest {
 
     @Autowired
-    private AlunoService alunoService;
+    private AlunoRepository alunoService;
 
     @GetMapping
     public List<Aluno> findAll(){
@@ -25,5 +22,20 @@ public class AlunoRest {
     @GetMapping("/{id}")
     public Aluno findById(@PathVariable Long id) {
         return alunoService.findById(id);
+    }
+
+    @PostMapping
+    public Aluno insert(@RequestBody Aluno aluno){
+        return alunoService.insert(aluno);
+    }
+
+    @PutMapping("/{id}")
+    public Aluno update(@RequestBody Aluno aluno, @PathVariable Long id){
+        return alunoService.update(aluno, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id){
+        alunoService.deleteAlunoById(id);
     }
 }

@@ -10,6 +10,7 @@ public class Aluno {
 
     private Long alunoId;
     private LocalDate dataNascimento;
+    private String nome;
     private Double altura;
     private Double peso;
     private Double imc;
