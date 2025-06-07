@@ -1,4 +1,4 @@
-package monokai.gymapp;
+package monokai.gymapp.rest;
 
 import monokai.gymapp.domain.model.Aluno;
 import monokai.gymapp.repository.AlunoRepository;
@@ -12,30 +12,30 @@ import java.util.List;
 public class AlunoRest {
 
     @Autowired
-    private AlunoRepository alunoService;
+    private AlunoRepository alunoRepository;
 
     @GetMapping
     public List<Aluno> findAll(){
-        return alunoService.findAll();
+        return alunoRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Aluno findById(@PathVariable Long id) {
-        return alunoService.findById(id);
+        return alunoRepository.findById(id);
     }
 
     @PostMapping
     public Aluno insert(@RequestBody Aluno aluno){
-        return alunoService.insert(aluno);
+        return alunoRepository.insert(aluno);
     }
 
     @PutMapping("/{id}")
     public Aluno update(@RequestBody Aluno aluno, @PathVariable Long id){
-        return alunoService.update(aluno, id);
+        return alunoRepository.update(aluno, id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id){
-        alunoService.deleteAlunoById(id);
+        alunoRepository.deleteAlunoById(id);
     }
 }
