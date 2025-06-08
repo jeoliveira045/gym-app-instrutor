@@ -9,6 +9,7 @@ public class Treino {
 
     private Long treinoId;
     private String nomeTreino;
+    private Long alunoId;
     private List<Tarefa> tarefaList;
 
 }
