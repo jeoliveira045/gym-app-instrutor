@@ -4,8 +4,10 @@ import lombok.Data;
 
 @Data
 public class TarefaItem {
-    public Long tarefaItemId;
-    public Integer qtdSeries;
-    public Integer qtdRepeticoes;
-    public Exercicio exercicio;
+    private Long tarefaitemId;
+    private Integer qtdSerie;
+    private Integer qtdRepeticoes;
+    private Long tarefaId;
+    private Long exercicioId;
+    private Exercicio exercicio;
 }

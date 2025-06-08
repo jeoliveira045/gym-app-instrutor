@@ -6,5 +6,10 @@ import lombok.Data;
 public class Exercicio {
     public Long exercicioId;
     public String nomeExercicio;
+    public String tipo;
+    public String musculo;
+    public String equipamento;
+    public String dificuldade;
+    public String instrucoes;
     public byte[] imagemExercicio;
 }
