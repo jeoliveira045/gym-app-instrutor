@@ -24,6 +24,12 @@ public class TreinoRepository {
         return jdbcTemplate.query(treino, new BeanPropertyRowMapper<>(Treino.class));
     }
 
+    public List<Treino> findAllByAlunoId(Long id){
+        var treino = "SELECT treino_id, nome_treino, aluno_id FROM TREINO WHERE aluno_id = ?";
+
+        return jdbcTemplate.query(treino, new BeanPropertyRowMapper<>(Treino.class), id);
+    }
+
     public Treino findById(Long id){
         var query = "SELECT treino_id, nome_treino, aluno_id FROM TREINO WHERE treino_id = ?";
 
@@ -31,6 +37,8 @@ public class TreinoRepository {
 
         return treinoOptional.orElseThrow();
     }
+
+
 
     public Treino insert(Treino treino){
         var query = "INSERT INTO TREINO(nome_treino, aluno_id) VALUES (?, ?)";

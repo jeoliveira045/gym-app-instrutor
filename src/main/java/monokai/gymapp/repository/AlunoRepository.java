@@ -1,5 +1,6 @@
 package monokai.gymapp.repository;
 
+import lombok.AllArgsConstructor;
 import monokai.gymapp.domain.model.Aluno;
 import monokai.gymapp.domain.model.Treino;
 import monokai.gymapp.utils.MappingFieldTypes;
@@ -15,10 +16,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Repository
+@AllArgsConstructor
 public class AlunoRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+
+    private TreinoRepository treinoRepository;
 
 
     public List<Aluno> findAll(){
@@ -36,32 +41,11 @@ public class AlunoRepository {
                     aluno_id, nome, data_nascimento, altura, peso, imc 
                 FROM ALUNO WHERE ALUNO_ID = ?
                 """;
-        String treinoQuery = """
-                SELECT
-                    treino_id, nome_treino from
-                TREINO WHERE aluno_id = ?
-                """;
         var aluno = jdbcTemplate.queryForObject(alunoquery,  new BeanPropertyRowMapper<>(Aluno.class), id);
-        List<Treino> treinoList = new ArrayList<>();
-        jdbcTemplate.queryForList(treinoQuery, id).forEach(treinos -> {
-            Treino treino = new Treino();
-            Arrays.stream(treino.getClass().getDeclaredFields()).forEach(field -> {
-                field.setAccessible(true);
-                String fieldName = getFieldName(field.getName());
-                try {
-                    var mapping = new MappingFieldTypes();
-                    var mappingFunction = mapping.getFunctionMap().get(field.getType());
-                    if(mappingFunction != null){
-                        field.set(treino, mappingFunction.apply(treinos.get(fieldName)));
-                    }
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            treinoList.add(treino);
-        });
-        assert aluno != null;
+        List<Treino> treinoList = treinoRepository.findAllByAlunoId(id);
         aluno.setTreinoList(treinoList);
+
+
         return aluno;
     }
 
@@ -110,32 +94,5 @@ public class AlunoRepository {
     public int deleteAlunoById(Long alunoId) {
         String sql = "DELETE FROM aluno WHERE aluno_id = ?";
         return jdbcTemplate.update(sql, alunoId);
-    }
-
-    private static String getFieldName(String fieldName) {
-        Pattern pattern = Pattern.compile("[A-Z]");
-        String newFieldName = "";
-        List<String> characterList = new ArrayList<>(fieldName.chars().mapToObj(c -> String.valueOf((char) c)).toList());
-        List<Integer> indexes = getIndexes(characterList, pattern);
-        indexes.forEach(index -> {
-            characterList.add(index, "_");
-        });
-        for(String chara: characterList){
-            newFieldName += chara;
-        }
-        fieldName = newFieldName.toLowerCase(Locale.ROOT);
-        return fieldName;
-    }
-
-    private static List<Integer> getIndexes(List<String> characterList, Pattern pattern) {
-        List<Integer> indexes = new ArrayList<>();
-        characterList.forEach(character -> {
-            Matcher matcher = pattern.matcher(character);
-            if(matcher.find()){
-                int index = characterList.indexOf(character);
-                indexes.add(index);
-            }
-        });
-        return indexes;
     }
 }
