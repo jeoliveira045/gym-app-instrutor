@@ -30,6 +30,13 @@ public class TarefaItemRepository {
         return itemOptional.orElseThrow();
     }
 
+    public List<TarefaItem> findByTarefaId(Long tarefaId) {
+        String sql = "SELECT tarefaitem_id, qtd_serie, qtd_repeticoes, tarefa_id, exercicio_id FROM tarefaitem WHERE tarefa_id = ?";
+        List<TarefaItem> itemOptional = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TarefaItem.class), tarefaId);
+
+        return itemOptional;
+    }
+
     public TarefaItem insert(TarefaItem item) {
         String sql = "INSERT INTO tarefaitem (qtd_serie, qtd_repeticoes, tarefa_id, exercicio_id) VALUES (?, ?, ?, ?)";
 

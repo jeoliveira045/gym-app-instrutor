@@ -2,6 +2,7 @@ package monokai.gymapp.rest;
 
 import monokai.gymapp.domain.model.Aluno;
 import monokai.gymapp.repository.AlunoRepository;
+import monokai.gymapp.service.SelecionarAlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public class AlunoRest {
     @Autowired
     private AlunoRepository alunoRepository;
 
+    @Autowired
+    private SelecionarAlunoService selecionarAlunoService;
+
     @GetMapping
     public List<Aluno> findAll(){
         return alunoRepository.findAll();
@@ -21,7 +25,7 @@ public class AlunoRest {
 
     @GetMapping("/{id}")
     public Aluno findById(@PathVariable Long id) {
-        return alunoRepository.findById(id);
+        return selecionarAlunoService.exec(id);
     }
 
     @PostMapping

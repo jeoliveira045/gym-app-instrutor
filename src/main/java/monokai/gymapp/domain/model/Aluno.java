@@ -2,6 +2,7 @@ package monokai.gymapp.domain.model;
 
 import lombok.Data;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,4 +17,10 @@ public class Aluno {
     private Double imc;
     private List<Treino> treinoList;
 
+    public Double getImc() {
+        this.imc = peso / (altura * altura);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String numeroFormatado = decimalFormat.format(this.imc);
+        return Double.parseDouble(numeroFormatado.replace(",","."));
+    }
 }

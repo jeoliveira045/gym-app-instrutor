@@ -3,7 +3,6 @@ package monokai.gymapp.repository;
 import lombok.AllArgsConstructor;
 import monokai.gymapp.domain.model.Aluno;
 import monokai.gymapp.domain.model.Treino;
-import monokai.gymapp.utils.MappingFieldTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -31,6 +31,16 @@ public class TarefaRepository {
         return tarefaOptional.orElseThrow();
     }
 
+    public List<Tarefa> findAllByTreino(Long treinoId){
+        var query = """
+                SELECT tarefa_id, nome_tarefa, tipo_tarefa, treino_id from tarefa WHERE treino_id = ?
+                """;
+
+        List<Tarefa> tarefaList = jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Tarefa.class), treinoId);
+
+        return tarefaList;
+    }
+
     public Tarefa insert(Tarefa tarefa){
         var query = "INSERT INTO tarefa(nome_tarefa, tipo_tarefa, treino_id)  VALUES (?,?,?)";
 
